@@ -1,14 +1,19 @@
 service: counter-api
 frameworkVersion: "3"
+useDotenv: true
 
 provider:
   name: aws
   runtime: nodejs18.x
   profile: deploy-dev
 
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-offline
+
 functions:
   api:
-    handler: index.handler
+    handler: build/index.increment
     events:
       - httpApi:
           path: /
