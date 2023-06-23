@@ -6,15 +6,28 @@ export class CountApiService extends HttpService {
   }
 
   static getInstance() {
-    const baseURL = process.env.COUNT_API_BASE_URL as string;
+    const baseURL = process.env.COUNT_API_BASE_URL;
     return new CountApiService(baseURL);
   }
 
-  incrementVisits = async () => {
+  incrementVisits = async (namespace: string, key: string) => {
     try {
-      return await this.client.post('/hit/ton.com.br/visits');
+      const uri = `/hit/${namespace}/${key}`;
+      console.log('uri', uri);
+      // return await this.httpClient.post(uri);
     } catch (error) {
       console.error('Error to increment visit');
+      throw error;
+    }
+  }
+
+  get = async (namespace: string, key: string) => {
+    try {
+      const uri = `/get/${namespace}/${key}`;
+      console.log('uri', uri);
+      // return await this.httpClient.get(uri);
+    } catch (error) {
+      console.error('Error to get visit count');
       throw error;
     }
   }

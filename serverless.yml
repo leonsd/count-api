@@ -12,9 +12,27 @@ plugins:
   - serverless-offline
 
 functions:
-  api:
-    handler: build/index.increment
+  incrementVisits:
+    handler: build/index.incrementVisits
     events:
       - httpApi:
-          path: /
+          path: /visits/{namespace}
+          method: put
+  getVisits:
+    handler: build/index.getVisits
+    events:
+      - httpApi:
+          path: /visits/{namespace}
+          method: get
+  createUser:
+    handler: build/index.createUser
+    events:
+      - httpApi:
+          path: /users
+          method: post
+  showUser:
+    handler: build/index.showUser
+    events:
+      - httpApi:
+          path: /users/{id}
           method: get

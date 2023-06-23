@@ -1,9 +1,9 @@
 import axios, { AxiosInstance } from 'axios';
 
 export class HttpService {
-  protected client: AxiosInstance
+  protected httpClient: AxiosInstance;
 
   constructor(baseURL: string) {
-    this.client = axios.create({ baseURL });
+    this.httpClient = axios.create({ baseURL });
   }
 }

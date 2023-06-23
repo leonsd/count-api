@@ -1,26 +1,35 @@
 import { CountApiService } from "../services/CountApiService";
+import { BaseController } from "./BaseController";
 
-export class VisitController {
-  private constructor(private readonly countApiService: CountApiService) { }
+export class VisitController extends BaseController {
+  private constructor(private readonly countApiService: CountApiService) {
+    super();
+  }
 
   static getInstance() {
     const countApiService = CountApiService.getInstance();
     return new VisitController(countApiService);
   }
 
-  incrementVisits = async () => {
-    // const { data } = await this.countApiService.incrementVisits();
+  increment = async (event: any) => {
+    const namespace = event.pathParameters?.namespace;
+    const key = 'visits';
+    await this.countApiService.incrementVisits(namespace, key);
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify(
-        {
-          message: "Increment visit successfully!",
-          visits: 1
-        },
-        null,
-        2
-      ),
-    };
+    return this.response.success.ok({
+      message: "Increment visit successfully!",
+      visits: 1
+    });
+  }
+
+  get = async (event: any) => {
+    const namespace = event.pathParameters?.namespace;
+    const key = 'visits';
+    await this.countApiService.get(namespace, key);
+
+    return this.response.success.ok({
+      message: "Get visit successfully!",
+      visits: 1
+    });
   }
 }

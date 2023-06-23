@@ -5,15 +5,24 @@
   "main": "index.ts",
   "scripts": {
     "build": "tsc",
+    "dev": "npm run local-server",
+    "local-server": "sls offline start -s dev",
     "prepare-husky": "husky install",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "tsc -w"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@middy/core": "^4.5.2",
+    "@middy/http-error-handler": "^4.5.2",
+    "@middy/http-event-normalizer": "^4.5.2",
+    "@middy/http-json-body-parser": "^4.5.2",
+    "@types/aws-lambda": "^8.10.119",
     "axios": "^1.4.0",
     "countapi-js": "^1.0.2",
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "joi": "^17.9.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.6.5",
