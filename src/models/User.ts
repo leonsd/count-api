@@ -1,5 +1,5 @@
 import { hashSync } from 'bcrypt';
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BaseEntity, BeforeInsert } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BaseEntity, BeforeInsert, AfterInsert } from 'typeorm';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity {
@@ -13,17 +13,22 @@ export class User extends BaseEntity {
   email: string;
 
   @Column({ select: false })
-  password: string;
+  password?: string;
 
-  @Column({ name: 'created_at' })
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @Column({ name: 'updated_at' })
+  @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
   @BeforeInsert()
   private hashPassword = () => {
     const salt = 10;
-    this.password = hashSync(this.password, salt);
+    this.password = hashSync(String(this.password), salt);
+  }
+
+  @AfterInsert()
+  private removePasswordField = () => {
+    delete this.password;
   }
 }

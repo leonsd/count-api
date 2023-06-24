@@ -13,7 +13,7 @@ export class UserRepository {
     this.model.email = data.email;
     this.model.password = data.password;
 
-    await this.model.save();
+    return this.model.save();
   }
 
   show = (id: number) => {
