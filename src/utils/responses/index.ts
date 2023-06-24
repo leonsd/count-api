@@ -26,6 +26,12 @@ export const response = {
         body: JSON.stringify(body)
       };
     },
+    conflict: (body: any) => {
+      return {
+        statusCode: 409,
+        body: JSON.stringify(body)
+      };
+    },
     internal: (body: any) => {
       return {
         statusCode: 500,

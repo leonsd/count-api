@@ -3,7 +3,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { Schema } from 'joi';
 import { response } from '../utils/responses';
 
-export default (validationSchema: Schema) => {
+export const validator = (validationSchema: Schema) => {
   const before: middy.MiddlewareFn<APIGatewayProxyEvent, APIGatewayProxyResult> = async (
     request
   ) => {

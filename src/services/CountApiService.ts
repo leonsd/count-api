@@ -1,7 +1,7 @@
 import { HttpService } from "./HttpService";
 
 export class CountApiService extends HttpService {
-  private constructor(public readonly baseURL: string) {
+  private constructor(private readonly baseURL: string) {
     super(baseURL);
   }
 
