@@ -6,6 +6,8 @@
   "scripts": {
     "build": "tsc",
     "dev": "npm run local-server",
+    "deploy:dev": "npm run build && sls deploy -s dev",
+    "deploy:prod": "npm run build && sls deploy -s prod",
     "local-server": "sls offline start -s dev",
     "migrate": "npx dotenv-run-script typeorm migration:run -- -d src/config/database/data-source.ts",
     "revert-migration": "npx dotenv-run-script typeorm migration:revert -- -d src/config/database/data-source.ts",

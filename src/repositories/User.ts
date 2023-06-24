@@ -1,19 +1,19 @@
 import { User } from "../models/User";
 
 export class UserRepository {
-  private constructor(private readonly model: User) { }
+  private constructor() { }
 
   static getInstance() {
-    const user = new User();
-    return new UserRepository(user);
+    return new UserRepository();
   }
 
   create = async (data: any) => {
-    this.model.name = data.name;
-    this.model.email = data.email;
-    this.model.password = data.password;
+    const user = new User();
+    user.name = data.name;
+    user.email = data.email;
+    user.password = data.password;
 
-    return this.model.save();
+    return user.save();
   }
 
   show = (id: number) => {

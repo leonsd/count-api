@@ -36,3 +36,14 @@ functions:
       - httpApi:
           path: /users/{id}
           method: get
+
+resources:
+  Resources:
+    Ton:
+      Type: AWS::RDS::DBInstance
+      Properties:
+        AllocatedStorage: 20
+        DBInstanceClass: db.t3.micro
+        Engine: MySQL
+        MasterUsername: admin
+        MasterUserPassword: password
