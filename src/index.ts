@@ -3,14 +3,23 @@ import httpEventNormalizer from '@middy/http-event-normalizer';
 import httpJsonBodyParser from '@middy/http-json-body-parser';
 import httpErrorHandlerMiddleware from '@middy/http-error-handler';
 
-import { VisitController } from './controllers/VisitController';
+import { AuthController } from './controllers/AuthController';
 import { UserController } from './controllers/UserController';
-import { validator } from './middlewares/validator';
+import { VisitController } from './controllers/VisitController';
+import { authentication } from './middlewares/authentication';
 import { databaseConnection } from './middlewares/databaseConnection';
+import { validator } from './middlewares/validator';
 import { createEventSchema as createUserEventSchema } from './validators/User';
 
-const visitController = VisitController.getInstance();
+const authController = AuthController.getInstance();
 const userController = UserController.getInstance();
+const visitController = VisitController.getInstance();
+
+export const login = middy(authController.login)
+  .use(httpEventNormalizer())
+  .use(httpJsonBodyParser())
+  .use(databaseConnection())
+  .use(httpErrorHandlerMiddleware());
 
 export const incrementVisits = middy(visitController.increment)
   .use(httpEventNormalizer())
@@ -18,6 +27,7 @@ export const incrementVisits = middy(visitController.increment)
 
 export const getVisits = middy(visitController.get)
   .use(httpEventNormalizer())
+  .use(authentication())
   .use(httpErrorHandlerMiddleware());
 
 export const createUser = middy(userController.create)
@@ -29,6 +39,7 @@ export const createUser = middy(userController.create)
 
 export const showUser = middy(userController.show)
   .use(httpEventNormalizer())
+  .use(authentication())
   .use(httpJsonBodyParser())
   .use(databaseConnection())
   .use(httpErrorHandlerMiddleware());

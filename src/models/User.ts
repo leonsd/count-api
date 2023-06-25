@@ -21,6 +21,15 @@ export class User extends BaseEntity {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
+  toJSON = () => {
+    return {
+      name: this.name,
+      email: this.email,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt
+    };
+  }
+
   @BeforeInsert()
   private hashPassword = () => {
     const salt = 10;

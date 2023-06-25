@@ -6,6 +6,8 @@ declare global {
       DB_USERNAME: string;
       DB_PASSWORD: string;
       DB_NAME: string;
+      NODE_ENV: string;
+      JWT_SECRET: string;
       COUNT_API_BASE_URL: string;
     }
   }

@@ -12,6 +12,12 @@ plugins:
   - serverless-offline
 
 functions:
+  login:
+    handler: build/index.login
+    events:
+      - httpApi:
+          path: /auth
+          method: post
   incrementVisits:
     handler: build/index.incrementVisits
     events:

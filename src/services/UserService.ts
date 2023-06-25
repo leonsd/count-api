@@ -1,4 +1,5 @@
 import { UserRepository } from "../repositories/User";
+import { IUserData } from "../interfaces/UserData";
 import NotFoundException from "../exceptions/NotFoundException";
 import ConflictException from "../exceptions/ConflictException";
 
@@ -10,7 +11,7 @@ export class UserService {
     return new UserService(userRepository);
   }
 
-  create = async (data: any) => {
+  create = async (data: IUserData) => {
     try {
       return await this.userRepository.create(data);
     } catch (error) {
