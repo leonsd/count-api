@@ -18,7 +18,7 @@ const verifyToken = (token: string) => {
   })
 }
 
-export const authentication = () => {
+export const authorizer = () => {
   const before: middy.MiddlewareFn<APIGatewayProxyEvent, APIGatewayProxyResult> = async (request) => {
     const token = request.event.headers.token;
 

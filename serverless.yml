@@ -12,8 +12,8 @@ plugins:
   - serverless-offline
 
 functions:
-  login:
-    handler: build/index.login
+  authentication:
+    handler: build/index.authentication
     events:
       - httpApi:
           path: /auth

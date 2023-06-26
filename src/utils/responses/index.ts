@@ -1,4 +1,5 @@
 import { HttpStatus } from "../../enums/httpStatus";
+import IErrorResponse from "../../interfaces/ErrorResponse";
 
 const headers = {
   "content-type": "application/json"
@@ -6,14 +7,14 @@ const headers = {
 
 export const response = {
   success: {
-    ok: (body: any) => {
+    ok: <T>(body: T) => {
       return {
         statusCode: HttpStatus.OK,
         headers,
         body: JSON.stringify(body)
       };
     },
-    created: (body: any) => {
+    created: <T>(body: T) => {
       return {
         statusCode: HttpStatus.CREATED,
         headers,
@@ -22,35 +23,35 @@ export const response = {
     },
   },
   error: {
-    badRequest: (body: any) => {
+    badRequest: (body: IErrorResponse) => {
       return {
         statusCode: HttpStatus.BAD_REQUEST,
         headers,
         body: JSON.stringify(body)
       };
     },
-    forbidden: (body: any) => {
+    forbidden: (body: IErrorResponse) => {
       return {
         statusCode: HttpStatus.FORBIDDEN,
         headers,
         body: JSON.stringify(body)
       };
     },
-    notFound: (body: any) => {
+    notFound: (body: IErrorResponse) => {
       return {
         statusCode: HttpStatus.NOT_FOUND,
         headers,
         body: JSON.stringify(body)
       };
     },
-    conflict: (body: any) => {
+    conflict: (body: IErrorResponse) => {
       return {
         statusCode: HttpStatus.CONFLICT,
         headers,
         body: JSON.stringify(body)
       };
     },
-    internal: (body: any) => {
+    internal: (body: IErrorResponse) => {
       return {
         statusCode: HttpStatus.INTERNAL,
         headers,

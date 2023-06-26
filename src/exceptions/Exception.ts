@@ -9,4 +9,12 @@ export default class Exception extends Error {
     this.body = { message };
     this.statusCode = status;
   }
+
+  getStatusCode = () => {
+    return this.statusCode;
+  }
+
+  getBody = () => {
+    return this.body;
+  }
 }

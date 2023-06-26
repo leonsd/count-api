@@ -1,3 +1,4 @@
+import { IAPIGatewayProxyEvent } from "../interfaces/APIGatewayProxyEvent";
 import { CountApiService } from "../services/CountApiService";
 import { BaseController } from "./BaseController";
 
@@ -11,8 +12,8 @@ export class VisitController extends BaseController {
     return new VisitController(countApiService);
   }
 
-  increment = async (event: any) => {
-    const namespace = event.pathParameters?.namespace;
+  increment = async (event: IAPIGatewayProxyEvent<null, { namespace: string }>) => {
+    const namespace = event.pathParameters.namespace;
     const key = 'visits';
     await this.countApiService.incrementVisits(namespace, key);
 
@@ -22,8 +23,8 @@ export class VisitController extends BaseController {
     });
   }
 
-  get = async (event: any) => {
-    const namespace = event.pathParameters?.namespace;
+  get = async (event: IAPIGatewayProxyEvent<null, { namespace: string }>) => {
+    const namespace = event.pathParameters.namespace;
     const key = 'visits';
     await this.countApiService.get(namespace, key);
 

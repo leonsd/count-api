@@ -23,6 +23,7 @@ export class User extends BaseEntity {
 
   toJSON = () => {
     return {
+      id: this.id,
       name: this.name,
       email: this.email,
       createdAt: this.createdAt,

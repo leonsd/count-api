@@ -11,7 +11,7 @@ export const validator = (validationSchema: Schema) => {
       const { body } = await validationSchema.validateAsync(request.event, { abortEarly: false, stripUnknown: true });
       request.event = Object.assign(request.event, { body });
     } catch (error) {
-      request.response = response.error.badRequest({
+      return response.error.badRequest({
         message: error.message
       });
     }

@@ -14,8 +14,8 @@ export class AuthController extends BaseController {
     return new AuthController(authService);
   }
 
-  login = async (event: IAPIGatewayProxyEvent<IAuthData>) => {
-    const token = await this.authService.login(event.body);
+  authentication = async (event: IAPIGatewayProxyEvent<IAuthData>) => {
+    const token = await this.authService.authentication(event.body);
 
     return this.response.success.ok({ token });
   }

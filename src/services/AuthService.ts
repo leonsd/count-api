@@ -14,7 +14,7 @@ export class AuthService {
     return new AuthService(userRepository);
   }
 
-  login = async (data: IAuthData) => {
+  authentication = async (data: IAuthData) => {
     const { email, password } = data;
     const userEntity = await this.userRepository.findByEmail(email);
 

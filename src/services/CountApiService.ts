@@ -13,10 +13,10 @@ export class CountApiService extends HttpService {
   incrementVisits = async (namespace: string, key: string) => {
     try {
       const uri = `/hit/${namespace}/${key}`;
-      console.log('uri', uri);
-      // return await this.httpClient.post(uri);
+
+      return await this.httpClient.post(uri);
     } catch (error) {
-      console.error('Error to increment visit');
+      console.error('Error to increment visit', error.message);
       throw error;
     }
   }
@@ -24,10 +24,10 @@ export class CountApiService extends HttpService {
   get = async (namespace: string, key: string) => {
     try {
       const uri = `/get/${namespace}/${key}`;
-      console.log('uri', uri);
-      // return await this.httpClient.get(uri);
+
+      return await this.httpClient.get(uri);
     } catch (error) {
-      console.error('Error to get visit count');
+      console.error('Error to get visit count', error.message);
       throw error;
     }
   }
