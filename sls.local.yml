@@ -1,0 +1,37 @@
+provider:
+  profile: deploy-dev
+
+functions:
+  authentication:
+    handler: build/index.authentication
+    events:
+      - httpApi:
+          path: /auth
+          method: post
+  incrementVisits:
+    handler: build/index.incrementVisits
+    events:
+      - httpApi:
+          path: /visits/{namespace}
+          method: put
+  getVisits:
+    handler: build/index.getVisits
+    events:
+      - httpApi:
+          path: /visits/{namespace}
+          method: get
+  createUser:
+    handler: build/index.createUser
+    events:
+      - httpApi:
+          path: /users
+          method: post
+  showUser:
+    handler: build/index.showUser
+    events:
+      - httpApi:
+          path: /users/{id}
+          method: get
+
+resources:
+  Resources:

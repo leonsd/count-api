@@ -10,6 +10,7 @@ import { databaseConnection } from './middlewares/databaseConnection';
 import { httpErrorHandler } from './middlewares/httpErrorHandler';
 import { validator } from './middlewares/validator';
 import { createEventSchema as createUserEventSchema } from './validators/User';
+import { authEventSchema } from './validators/Auth';
 
 const authController = AuthController.getInstance();
 const userController = UserController.getInstance();
@@ -18,6 +19,7 @@ const visitController = VisitController.getInstance();
 export const authentication = middy(authController.authentication)
   .use(httpEventNormalizer())
   .use(httpJsonBodyParser())
+  .use(validator(authEventSchema))
   .use(databaseConnection())
   .use(httpErrorHandler());
 

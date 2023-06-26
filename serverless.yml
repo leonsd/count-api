@@ -1,11 +1,13 @@
-service: counter-api
+service: ton-api
 frameworkVersion: "3"
 useDotenv: true
 
 provider:
   name: aws
   runtime: nodejs18.x
-  profile: deploy-dev
+  profile: ${file(sls.${opt:stage}.yml):provider.profile}
+  environment:
+    NODE_ENV: ${opt:stage}
 
 plugins:
   - serverless-dotenv-plugin
@@ -24,45 +26,6 @@ package:
     - "!README.md"
     - "!tsconfig.json"
 
-functions:
-  authentication:
-    handler: build/index.authentication
-    events:
-      - httpApi:
-          path: /auth
-          method: post
-  incrementVisits:
-    handler: build/index.incrementVisits
-    events:
-      - httpApi:
-          path: /visits/{namespace}
-          method: put
-  getVisits:
-    handler: build/index.getVisits
-    events:
-      - httpApi:
-          path: /visits/{namespace}
-          method: get
-  createUser:
-    handler: build/index.createUser
-    events:
-      - httpApi:
-          path: /users
-          method: post
-  showUser:
-    handler: build/index.showUser
-    events:
-      - httpApi:
-          path: /users/{id}
-          method: get
+functions: ${file(sls.${opt:stage}.yml):functions}
 
-resources:
-  Resources:
-    Ton:
-      Type: AWS::RDS::DBInstance
-      Properties:
-        AllocatedStorage: 20
-        DBInstanceClass: db.t3.micro
-        Engine: MySQL
-        MasterUsername: admin
-        MasterUserPassword: password
+resources: ${file(sls.${opt:stage}.yml):resources}
