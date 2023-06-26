@@ -7,7 +7,7 @@ import { IUserData } from '../interfaces/UserData';
 import UnauthorizedException from '../exceptions/UnauthorizedException';
 
 export class AuthService {
-  private constructor(private readonly userRepository: UserRepository) { }
+  constructor(private readonly userRepository: UserRepository) { }
 
   static getInstance() {
     const userRepository = UserRepository.getInstance();

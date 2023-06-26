@@ -1,4 +1,4 @@
-import { User } from "../models/User";
+import { User } from "../models/UserModel";
 import { IUserData } from "../interfaces/UserData";
 
 export class UserRepository {
