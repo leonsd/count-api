@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
 
 export class HttpService {
-  protected httpClient: AxiosInstance;
+  public client: AxiosInstance;
 
   constructor(baseURL: string, options?: CreateAxiosDefaults) {
     const FIVE_SECONDS = 5 * 1000;
@@ -10,6 +10,6 @@ export class HttpService {
       timeout: FIVE_SECONDS
     };
 
-    this.httpClient = axios.create({ baseURL, ...defaultOptions });
+    this.client = axios.create({ baseURL, ...defaultOptions });
   }
 }

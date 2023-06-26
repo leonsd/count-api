@@ -11,6 +11,19 @@ plugins:
   - serverless-dotenv-plugin
   - serverless-offline
 
+package:
+  patterns:
+    - "!node_modules/@types/**"
+    - "!__tests__/**"
+    - "!src/**"
+    - "!.husky/**"
+    - "!coverage/**"
+    - "!.editorconfig"
+    - "!commitlint.config.js"
+    - "!jest.config.js"
+    - "!README.md"
+    - "!tsconfig.json"
+
 functions:
   authentication:
     handler: build/index.authentication

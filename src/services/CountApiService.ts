@@ -1,20 +1,20 @@
 import { HttpService } from "./HttpService";
 
-export class CountApiService extends HttpService {
-  private constructor(private readonly baseURL: string) {
-    super(baseURL);
-  }
+export class CountApiService {
+  private constructor(private readonly httpService: HttpService) { }
 
   static getInstance() {
     const baseURL = process.env.COUNT_API_BASE_URL;
-    return new CountApiService(baseURL);
+    const httpService = new HttpService(baseURL);
+
+    return new CountApiService(httpService);
   }
 
   incrementVisits = async (namespace: string, key: string) => {
     try {
       const uri = `/hit/${namespace}/${key}`;
 
-      return await this.httpClient.post(uri);
+      return await this.httpService.client.post(uri);
     } catch (error) {
       console.error('Error to increment visit', error.message);
       throw error;
@@ -25,7 +25,7 @@ export class CountApiService extends HttpService {
     try {
       const uri = `/get/${namespace}/${key}`;
 
-      return await this.httpClient.get(uri);
+      return await this.httpService.client.get(uri);
     } catch (error) {
       console.error('Error to get visit count', error.message);
       throw error;

@@ -2,7 +2,7 @@ import { User } from "../models/User";
 import { IUserData } from "../interfaces/UserData";
 
 export class UserRepository {
-  private constructor(private readonly model: typeof User) { }
+  constructor(private readonly model: typeof User) { }
 
   static getInstance() {
     return new UserRepository(User);

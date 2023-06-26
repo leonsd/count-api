@@ -1,7 +1,7 @@
 import { compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 
-import { UserRepository } from "../repositories/User";
+import { UserRepository } from "../repositories/UserRepository";
 import { IAuthData } from '../interfaces/AuthData';
 import { IUserData } from '../interfaces/UserData';
 import UnauthorizedException from '../exceptions/UnauthorizedException';
