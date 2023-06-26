@@ -13,6 +13,20 @@ Serverless 3.32.2
 
 ## Uso
 
+### Instalação das dependências
+
+```bash
+$ npm i
+```
+
+### Executar migrations
+
+Executar o comando a seguir para criação das tabelas do banco de dados.
+
+```bash
+$ npm run migrate
+```
+
 ### Desenvolvimento local
 
 Para iniciar a api basta utilizar o comando a seguir:
