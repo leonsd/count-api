@@ -9,6 +9,8 @@ declare global {
       NODE_ENV: string;
       JWT_SECRET: string;
       COUNT_API_BASE_URL: string;
+      REDIS_HOST: string;
+      REDIS_PORT: string;
     }
   }
 }

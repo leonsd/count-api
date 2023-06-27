@@ -8,6 +8,7 @@ provider:
   profile: ${file(sls.${opt:stage}.yml):provider.profile}
   environment:
     NODE_ENV: ${opt:stage}
+  vpc: ${file(sls.${opt:stage}.yml):provider.vpc}
 
 plugins:
   - serverless-dotenv-plugin

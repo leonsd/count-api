@@ -1,36 +1,29 @@
 import { IAPIGatewayProxyEvent } from "../interfaces/APIGatewayProxyEvent";
-import { CountApiService } from "../services/CountApiService";
+import { VisitService } from "../services/VisitService";
 import { BaseController } from "./BaseController";
 
 export class VisitController extends BaseController {
-  private constructor(private readonly countApiService: CountApiService) {
+  private constructor(private readonly visitService: VisitService) {
     super();
   }
 
   static getInstance() {
-    const countApiService = CountApiService.getInstance();
-    return new VisitController(countApiService);
+    const visitService = VisitService.getInstance();
+    return new VisitController(visitService);
   }
 
   increment = async (event: IAPIGatewayProxyEvent<null, { namespace: string }>) => {
     const namespace = event.pathParameters.namespace;
-    const key = 'visits';
-    await this.countApiService.incrementVisits(namespace, key);
+    const response = await this.visitService.increment(namespace);
 
-    return this.response.success.ok({
-      message: "Increment visit successfully!",
-      visits: 1
-    });
+    return this.response.success.ok({ message: "Increment visit successfully!", response });
+
   }
 
   get = async (event: IAPIGatewayProxyEvent<null, { namespace: string }>) => {
     const namespace = event.pathParameters.namespace;
-    const key = 'visits';
-    await this.countApiService.get(namespace, key);
+    const visits = await this.visitService.get(namespace);
 
-    return this.response.success.ok({
-      message: "Get visit successfully!",
-      visits: 1
-    });
+    return this.response.success.ok({ message: "Get visit successfully!", visits });
   }
 }
