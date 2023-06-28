@@ -1,8 +1,8 @@
-import { createClient } from "redis";
+import { createClient, RedisClientType } from "redis";
 import { ICacheClient } from "../interfaces/CacheClient";
 
 export class RedisCache implements ICacheClient {
-  private readonly client;
+  private client: RedisClientType<Record<string, never>>;
 
   constructor() {
     const host = process.env.REDIS_HOST;

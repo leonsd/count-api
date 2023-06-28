@@ -1,7 +1,7 @@
 import { CacheService } from "../services/CacheService";
 
 export class VisitService {
-  private constructor(private readonly cacheService: CacheService) { }
+  constructor(private readonly cacheService: CacheService) { }
 
   static getInstance() {
     const cacheService = CacheService.getInstance();
@@ -13,19 +13,14 @@ export class VisitService {
 
     try {
       await client.connect();
-      const field = 'visits';
-      const firstVisit = await this.firstVisit(domain);
+      const isFirstVisit = await this.isFirstVisit(domain);
 
-      if (firstVisit) {
+      if (isFirstVisit) {
         const value = '0';
-        console.log({ domain, value });
         await client.set(domain, value);
       }
 
-      const response = await client.incrementBy(domain);
-      console.info('cache response', response);
-
-      return response;
+      return await client.incrementBy(domain);
     } catch (error) {
       console.error('error', error);
       throw error;
@@ -54,24 +49,15 @@ export class VisitService {
     }
   }
 
-  private firstVisit = async (domain: string) => {
+  private isFirstVisit = async (domain: string) => {
     const client = this.cacheService.getClient();
     const response = await client.get(domain);
+    const visits = Number(response);
 
-    if (!response) {
-      return true;
+    if (visits) {
+      return false;
     }
 
-    try {
-      const visits = Number(response);
-
-      if (visits) {
-        return false;
-      }
-
-      return true;
-    } catch (error) {
-      return true;
-    }
+    return true;
   }
 }
