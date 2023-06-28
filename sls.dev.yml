@@ -53,3 +53,14 @@ resources:
         Engine: MySQL
         MasterUsername: admin
         MasterUserPassword: password
+
+    ElasticCacheCluster:
+      Type: AWS::ElastiCache::CacheCluster
+      Properties:
+        AutoMinorVersionUpgrade: true
+        Engine: redis
+        CacheNodeType: cache.t4g.micro
+        NumCacheNodes: 1
+        VpcSecurityGroupIds:
+          - sg-053c5e569e215cd82
+        CacheSubnetGroupName: ton-cache-sub
