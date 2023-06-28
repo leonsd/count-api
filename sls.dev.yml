@@ -51,8 +51,8 @@ resources:
         AllocatedStorage: 20
         DBInstanceClass: db.t3.micro
         Engine: MySQL
-        MasterUsername: admin
-        MasterUserPassword: password
+        MasterUsername: ${env:DB_USERNAME}
+        MasterUserPassword: ${env:DB_PASSWORD}
 
     ElasticCacheCluster:
       Type: AWS::ElastiCache::CacheCluster
