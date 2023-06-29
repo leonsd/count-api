@@ -1,9 +1,9 @@
-import { HttpStatus } from "../../enums/httpStatus";
-import IErrorResponse from "../../interfaces/ErrorResponse";
+import { HttpStatus } from '../../enums/httpStatus';
+import IErrorResponse from '../../interfaces/ErrorResponse';
 
 const headers = {
-  "content-type": "application/json"
-}
+  'content-type': 'application/json'
+};
 
 export const response = {
   success: {
@@ -59,4 +59,4 @@ export const response = {
       };
     }
   }
-}
+};

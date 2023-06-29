@@ -9,7 +9,7 @@ import Joi from 'joi';
   Max 16 characters.
 */
 const passwordPattern = new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,16}$');
-const passwordError = new Error('Password does not match minimum requirements')
+const passwordError = new Error('Password does not match minimum requirements');
 
 const createEventBodySchema = Joi.object({
   name: Joi.string().min(3).max(50).required(),
