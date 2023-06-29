@@ -4,17 +4,20 @@ import { UserRepository } from '../../src/repositories/UserRepository';
 import { UserService } from '../../src/services/UserService';
 
 jest.mock('../../src/repositories/UserRepository');
-const UserRepositoryMock = UserRepository as jest.MockedClass<typeof UserRepository>;
+const UserRepositoryMock = UserRepository as jest.MockedClass<
+  typeof UserRepository
+>;
 
 describe('UserService', () => {
   const makeSut = () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const userRepositoryMock = new UserRepositoryMock();
     const sut = new UserService(userRepositoryMock);
     const userDataMock = {
       name: 'any_name',
       email: 'any_email.com',
-      password: 'any_password'
+      password: 'any_password',
     };
 
     return { sut, userRepositoryMock, userDataMock };
@@ -47,7 +50,7 @@ describe('UserService', () => {
     try {
       userRepositoryMock.create = jest.fn().mockImplementationOnce(() => {
         throw {
-          code: 'ER_DUP_ENTRY'
+          code: 'ER_DUP_ENTRY',
         };
       });
 

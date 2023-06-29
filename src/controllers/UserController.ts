@@ -1,5 +1,3 @@
-import { APIGatewayProxyEvent } from 'aws-lambda';
-
 import { BaseController } from './BaseController';
 import { UserService } from '../services/UserService';
 import { IUserData } from '../interfaces/UserData';
@@ -19,11 +17,11 @@ export class UserController extends BaseController {
     const created = await this.userService.create(event.body);
 
     return this.response.success.created(created);
-  }
+  };
 
   show = async (event: IAPIGatewayProxyEvent<null, { id: number }>) => {
     const user = await this.userService.show(event.pathParameters.id);
 
     return this.response.success.ok(user);
-  }
+  };
 }

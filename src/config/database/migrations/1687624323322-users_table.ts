@@ -1,63 +1,58 @@
-import {
-  MigrationInterface,
-  QueryRunner,
-  Table,
-  TableIndex
-} from "typeorm";
+import { MigrationInterface, QueryRunner, Table, TableIndex } from 'typeorm';
 
 export class UsersTable1687624323322 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: "users",
+        name: 'users',
         columns: [
           {
-            name: "id",
-            type: "bigint",
+            name: 'id',
+            type: 'bigint',
             isPrimary: true,
             isGenerated: true,
-            generationStrategy: 'increment'
+            generationStrategy: 'increment',
           },
           {
-            name: "name",
-            type: "varchar",
-            length: '50'
+            name: 'name',
+            type: 'varchar',
+            length: '50',
           },
           {
-            name: "email",
-            type: "varchar",
+            name: 'email',
+            type: 'varchar',
             isUnique: true,
           },
           {
-            name: "password",
-            type: "varchar",
+            name: 'password',
+            type: 'varchar',
           },
           {
-            name: "created_at",
-            type: "timestamp",
-            default: "now()"
+            name: 'created_at',
+            type: 'timestamp',
+            default: 'now()',
           },
           {
-            name: "updated_at",
-            type: "timestamp",
-            default: "now()"
+            name: 'updated_at',
+            type: 'timestamp',
+            default: 'now()',
           },
         ],
       }),
-      true,
+      true
     );
 
     await queryRunner.createIndex(
-      "users",
+      'users',
       new TableIndex({
-        name: "idx_email",
-        columnNames: ["email"],
-      }),
+        name: 'idx_email',
+        columnNames: ['email'],
+      })
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropIndex("users", "idx_email");
-    await queryRunner.dropTable("users");
+    await queryRunner.dropIndex('users', 'idx_email');
+    await queryRunner.dropTable('users');
   }
 }

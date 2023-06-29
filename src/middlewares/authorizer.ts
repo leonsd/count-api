@@ -15,16 +15,19 @@ const verifyToken = (token: string) => {
 
       resolve(true);
     });
-  })
-}
+  });
+};
 
 export const authorizer = () => {
-  const before: middy.MiddlewareFn<APIGatewayProxyEvent, APIGatewayProxyResult> = async (request) => {
+  const before: middy.MiddlewareFn<
+    APIGatewayProxyEvent,
+    APIGatewayProxyResult
+  > = async (request) => {
     const token = request.event.headers.token;
 
     if (!token) {
       return response.error.forbidden({
-        message: 'Forbidden access'
+        message: 'Forbidden access',
       });
     }
 
@@ -32,10 +35,10 @@ export const authorizer = () => {
       await verifyToken(token);
     } catch (error) {
       return response.error.forbidden({
-        message: error.message
+        message: error.message,
       });
     }
-  }
+  };
 
   return { before };
 };

@@ -1,5 +1,5 @@
 import middy from '@middy/core';
-import { AppDataSource } from "../config/database/data-source";
+import { AppDataSource } from '../config/database/data-source';
 
 const openConnection = async () => {
   try {
@@ -8,7 +8,7 @@ const openConnection = async () => {
     console.error('Error initializing database connection', error);
     throw error;
   }
-}
+};
 
 const closeConection = async () => {
   try {
@@ -17,20 +17,20 @@ const closeConection = async () => {
     console.error('Error close database connection', error);
     throw error;
   }
-}
+};
 
 export const databaseConnection = () => {
   const before: middy.MiddlewareFn = async () => {
     await openConnection();
-  }
+  };
 
   const after: middy.MiddlewareFn = async () => {
     await closeConection();
-  }
+  };
 
   const onError: middy.MiddlewareFn = async () => {
     await closeConection();
-  }
+  };
 
   return { before, after, onError };
 };

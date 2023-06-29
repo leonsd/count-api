@@ -1,7 +1,7 @@
-import { CacheService } from "../services/CacheService";
+import { CacheService } from '../services/CacheService';
 
 export class VisitService {
-  constructor(private readonly cacheService: CacheService) { }
+  constructor(private readonly cacheService: CacheService) {}
 
   static getInstance() {
     const cacheService = CacheService.getInstance();
@@ -27,7 +27,7 @@ export class VisitService {
     } finally {
       await client.close();
     }
-  }
+  };
 
   get = async (domain: string) => {
     const client = this.cacheService.getClient();
@@ -47,7 +47,7 @@ export class VisitService {
     } finally {
       await client.close();
     }
-  }
+  };
 
   private isFirstVisit = async (domain: string) => {
     const client = this.cacheService.getClient();
@@ -59,5 +59,5 @@ export class VisitService {
     }
 
     return true;
-  }
+  };
 }

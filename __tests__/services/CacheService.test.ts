@@ -13,7 +13,7 @@ describe('CacheService', () => {
   });
 
   test('expect "getInstance" returns instance of CacheService', () => {
-    const { sut } = makeSut()
+    const { sut } = makeSut();
 
     expect(sut).toBeInstanceOf(CacheService);
   });

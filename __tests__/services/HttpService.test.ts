@@ -11,10 +11,11 @@ describe('HttpService', () => {
 
   test('expect "this.client" has AxiosInstance', () => {
     const baseURL = 'any_base_url';
-    const timeout =
-      new HttpService(baseURL);
+    new HttpService(baseURL);
 
     expect(AxiosMock.create).toHaveBeenCalledTimes(1);
-    expect(AxiosMock.create).toHaveBeenCalledWith(expect.objectContaining({ baseURL }));
+    expect(AxiosMock.create).toHaveBeenCalledWith(
+      expect.objectContaining({ baseURL })
+    );
   });
 });

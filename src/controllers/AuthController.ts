@@ -18,5 +18,5 @@ export class AuthController extends BaseController {
     const token = await this.authService.authentication(event.body);
 
     return this.response.success.ok({ token });
-  }
+  };
 }

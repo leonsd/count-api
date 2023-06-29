@@ -1,10 +1,10 @@
-import { UserRepository } from "../repositories/UserRepository";
-import { IUserData } from "../interfaces/UserData";
-import NotFoundException from "../exceptions/NotFoundException";
-import ConflictException from "../exceptions/ConflictException";
+import { UserRepository } from '../repositories/UserRepository';
+import { IUserData } from '../interfaces/UserData';
+import NotFoundException from '../exceptions/NotFoundException';
+import ConflictException from '../exceptions/ConflictException';
 
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) { }
+  constructor(private readonly userRepository: UserRepository) {}
 
   static getInstance() {
     const userRepository = UserRepository.getInstance();
@@ -21,7 +21,7 @@ export class UserService {
 
       throw error;
     }
-  }
+  };
 
   show = async (id: number) => {
     const user = await this.userRepository.show(id);
@@ -31,5 +31,5 @@ export class UserService {
     }
 
     return user;
-  }
+  };
 }

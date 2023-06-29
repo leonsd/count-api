@@ -1,8 +1,8 @@
-import { User } from "../models/UserModel";
-import { IUserData } from "../interfaces/UserData";
+import { User } from '../models/UserModel';
+import { IUserData } from '../interfaces/UserData';
 
 export class UserRepository {
-  constructor(private readonly model: typeof User) { }
+  constructor(private readonly model: typeof User) {}
 
   static getInstance() {
     return new UserRepository(User);
@@ -15,22 +15,16 @@ export class UserRepository {
     user.password = data.password;
 
     return user.save();
-  }
+  };
 
   show = (id: number) => {
     return this.model.findOneBy({ id });
-  }
+  };
 
   findByEmail = (email: string) => {
     return this.model.findOne({
-      select: [
-        'name',
-        'email',
-        'password',
-        'createdAt',
-        'updatedAt'
-      ],
-      where: { email }
+      select: ['name', 'email', 'password', 'createdAt', 'updatedAt'],
+      where: { email },
     });
-  }
+  };
 }

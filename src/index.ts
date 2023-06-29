@@ -13,7 +13,7 @@ import { authEventSchema } from './validators/Auth';
 import { createEventSchema as createUserEventSchema } from './validators/User';
 import {
   incrementEventSchema as incrementVisitEventSchema,
-  getEventSchema as getVisitEventSchema
+  getEventSchema as getVisitEventSchema,
 } from './validators/Visit';
 
 const authController = AuthController.getInstance();

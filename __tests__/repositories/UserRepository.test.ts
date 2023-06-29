@@ -10,7 +10,7 @@ describe('AuthService', () => {
     const userDataMock = {
       name: 'any_name',
       email: 'any_email.com',
-      password: 'any_password'
+      password: 'any_password',
     };
 
     return { sut, userDataMock };
@@ -49,14 +49,8 @@ describe('AuthService', () => {
 
     expect(UserModelMock.findOne).toHaveBeenCalledTimes(1);
     expect(UserModelMock.findOne).toHaveBeenCalledWith({
-      select: [
-        'name',
-        'email',
-        'password',
-        'createdAt',
-        'updatedAt'
-      ],
-      where: { email: userDataMock.email }
+      select: ['name', 'email', 'password', 'createdAt', 'updatedAt'],
+      where: { email: userDataMock.email },
     });
   });
 });

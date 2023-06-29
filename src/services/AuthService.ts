@@ -1,13 +1,13 @@
 import { compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 
-import { UserRepository } from "../repositories/UserRepository";
+import { UserRepository } from '../repositories/UserRepository';
 import { IAuthData } from '../interfaces/AuthData';
 import { IUserData } from '../interfaces/UserData';
 import UnauthorizedException from '../exceptions/UnauthorizedException';
 
 export class AuthService {
-  constructor(private readonly userRepository: UserRepository) { }
+  constructor(private readonly userRepository: UserRepository) {}
 
   static getInstance() {
     const userRepository = UserRepository.getInstance();
@@ -22,7 +22,10 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
-    const match = await this.checkPassword(password, String(userEntity.password));
+    const match = await this.checkPassword(
+      password,
+      String(userEntity.password)
+    );
 
     if (!match) {
       throw new UnauthorizedException();
@@ -32,18 +35,21 @@ export class AuthService {
     const token = this.generateToken(user);
 
     return token;
-  }
+  };
 
-  private checkPassword = async (inputPassword: string, hashPassword: string) => {
+  private checkPassword = async (
+    inputPassword: string,
+    hashPassword: string
+  ) => {
     const match = await compare(inputPassword, hashPassword);
 
     return match;
-  }
+  };
 
   private generateToken = (user: IUserData, expiresIn = '30m') => {
     const secret = process.env.JWT_SECRET;
     const token = sign(user, secret, { expiresIn });
 
     return token;
-  }
+  };
 }

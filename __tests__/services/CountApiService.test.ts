@@ -28,7 +28,7 @@ describe('CountApiService', () => {
     const [httpService] = HttpServiceMock.mock.instances;
     const uri = `/hit/${namespace}/${key}`;
     httpService.client = {
-      post: jest.fn()
+      post: jest.fn(),
     } as any;
 
     await sut.incrementVisits(namespace, key);
@@ -45,8 +45,8 @@ describe('CountApiService', () => {
       const [httpService] = HttpServiceMock.mock.instances;
       httpService.client = {
         post: () => {
-          throw new Error('forced error')
-        }
+          throw new Error('forced error');
+        },
       } as any;
 
       await sut.incrementVisits(namespace, key);
@@ -61,7 +61,7 @@ describe('CountApiService', () => {
     const [httpService] = HttpServiceMock.mock.instances;
     const uri = `/get/${namespace}/${key}`;
     httpService.client = {
-      get: jest.fn()
+      get: jest.fn(),
     } as any;
 
     await sut.get(namespace, key);
@@ -78,8 +78,8 @@ describe('CountApiService', () => {
       const [httpService] = HttpServiceMock.mock.instances;
       httpService.client = {
         get: () => {
-          throw new Error('forced error')
-        }
+          throw new Error('forced error');
+        },
       } as any;
 
       await sut.get(namespace, key);

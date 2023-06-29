@@ -6,7 +6,9 @@ import { UserRepository } from '../../src/repositories/UserRepository';
 import { AuthService } from '../../src/services/AuthService';
 
 jest.mock('../../src/repositories/UserRepository');
-const UserRepositoryMock = UserRepository as jest.MockedClass<typeof UserRepository>;
+const UserRepositoryMock = UserRepository as jest.MockedClass<
+  typeof UserRepository
+>;
 
 describe('AuthService', () => {
   const makeSut = () => {
@@ -15,7 +17,7 @@ describe('AuthService', () => {
     const sut = new AuthService(userRepositoryMock);
     const authData = {
       email: 'any_email.com',
-      password: 'any_password'
+      password: 'any_password',
     };
 
     return { sut, userRepositoryMock, authData };

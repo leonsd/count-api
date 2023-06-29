@@ -1,4 +1,4 @@
-import IErrorResponse from "../interfaces/ErrorResponse";
+import IErrorResponse from '../interfaces/ErrorResponse';
 
 export default class Exception extends Error {
   protected statusCode: number;
@@ -12,9 +12,9 @@ export default class Exception extends Error {
 
   getStatusCode = () => {
     return this.statusCode;
-  }
+  };
 
   getBody = () => {
     return this.body;
-  }
+  };
 }
