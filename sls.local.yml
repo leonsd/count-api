@@ -1,5 +1,15 @@
 provider:
   profile: deploy-dev
+  vpc:
+    securityGroupIds:
+      - sg-00836ae7ae13da1da
+    subnetIds:
+      - subnet-00ad334dc833f0710
+      - subnet-000074828e02bf344
+      - subnet-065ed420c79f67487
+      - subnet-0fac49d84fbe04c2a
+      - subnet-077b28faf95da87e0
+      - subnet-07882ad54ab16277e
 
 functions:
   authentication:

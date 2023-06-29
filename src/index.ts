@@ -9,8 +9,12 @@ import { authorizer } from './middlewares/authorizer';
 import { databaseConnection } from './middlewares/databaseConnection';
 import { httpErrorHandler } from './middlewares/httpErrorHandler';
 import { validator } from './middlewares/validator';
-import { createEventSchema as createUserEventSchema } from './validators/User';
 import { authEventSchema } from './validators/Auth';
+import { createEventSchema as createUserEventSchema } from './validators/User';
+import {
+  incrementEventSchema as incrementVisitEventSchema,
+  getEventSchema as getVisitEventSchema
+} from './validators/Visit';
 
 const authController = AuthController.getInstance();
 const userController = UserController.getInstance();
@@ -25,11 +29,14 @@ export const authentication = middy(authController.authentication)
 
 export const incrementVisits = middy(visitController.increment)
   .use(httpEventNormalizer())
+  .use(authorizer())
+  .use(validator(incrementVisitEventSchema))
   .use(httpErrorHandler());
 
 export const getVisits = middy(visitController.get)
   .use(httpEventNormalizer())
   .use(authorizer())
+  .use(validator(getVisitEventSchema))
   .use(httpErrorHandler());
 
 export const createUser = middy(userController.create)

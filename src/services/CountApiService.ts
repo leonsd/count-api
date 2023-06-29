@@ -1,7 +1,7 @@
 import { HttpService } from "./HttpService";
 
 export class CountApiService {
-  private constructor(private readonly httpService: HttpService) { }
+  constructor(private readonly httpService: HttpService) { }
 
   static getInstance() {
     const baseURL = process.env.COUNT_API_BASE_URL;
