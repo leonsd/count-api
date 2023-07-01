@@ -2,18 +2,27 @@ import { UserRepository } from '../repositories/UserRepository';
 import { IUserData } from '../interfaces/UserData';
 import NotFoundException from '../exceptions/NotFoundException';
 import ConflictException from '../exceptions/ConflictException';
+import { ConfirmationEmailQueue } from '../queues/ConfirmationEmailQueue';
 
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly confirmationEmailQueue: ConfirmationEmailQueue
+  ) {}
 
   static getInstance() {
     const userRepository = UserRepository.getInstance();
-    return new UserService(userRepository);
+    const confirmationEmailQueue = ConfirmationEmailQueue.getInstance();
+
+    return new UserService(userRepository, confirmationEmailQueue);
   }
 
   create = async (data: IUserData) => {
     try {
-      return await this.userRepository.create(data);
+      const created = await this.userRepository.create(data);
+      await this.confirmationEmailQueue.enqueue({ email: created.email });
+
+      return created;
     } catch (error) {
       if (error.code === 'ER_DUP_ENTRY') {
         throw new ConflictException('Email already registered');

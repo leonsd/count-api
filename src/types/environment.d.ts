@@ -7,6 +7,7 @@ declare global {
       DB_PASSWORD: string;
       DB_NAME: string;
       NODE_ENV: string;
+      SEND_CONFIRMATION_EMAIL_QUEUE: string;
       JWT_SECRET: string;
       COUNT_API_BASE_URL: string;
       REDIS_HOST: string;

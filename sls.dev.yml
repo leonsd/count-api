@@ -1,5 +1,7 @@
 provider:
   profile: deploy-dev
+  iam:
+    role: arn:aws:iam::304649006169:role/custom_lambda
   vpc:
     securityGroupIds:
       - sg-00836ae7ae13da1da
@@ -42,6 +44,13 @@ functions:
       - httpApi:
           path: /users/{id}
           method: get
+  sendConfirmationEmailWorker:
+    handler: build/index.sendConfirmationEmailWorker
+    description: Send confirmation email register
+    events:
+      - sqs:
+          arn: { Fn::GetAtt: [TonSendConfirmationEmailSQS, Arn] }
+          batchSize: 1
 
 resources:
   Resources:
@@ -64,3 +73,12 @@ resources:
         VpcSecurityGroupIds:
           - sg-053c5e569e215cd82
         CacheSubnetGroupName: ton-cache-sub
+    TonSendConfirmationEmailSQS:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: "ton_development_send_confirmation_email"
+        VisibilityTimeout: 60
+        # RedrivePolicy: {
+        #   "deadLetterTargetArn": { Fn::GetAtt: [TonSendConfirmationEmailDlqSQS, Arn] },
+        #   "maxReceiveCount": 3
+        # }

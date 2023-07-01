@@ -15,11 +15,13 @@ import {
   incrementEventSchema as incrementVisitEventSchema,
   getEventSchema as getVisitEventSchema,
 } from './validators/Visit';
+import { sendConfirmationEmail } from './handlers/sendConfirmationEmail';
 
 const authController = AuthController.getInstance();
 const userController = UserController.getInstance();
 const visitController = VisitController.getInstance();
 
+// Http
 export const authentication = middy(authController.authentication)
   .use(httpEventNormalizer())
   .use(httpJsonBodyParser())
@@ -52,3 +54,6 @@ export const showUser = middy(userController.show)
   .use(httpJsonBodyParser())
   .use(databaseConnection())
   .use(httpErrorHandler());
+
+// Workers
+export const sendConfirmationEmailWorker = middy(sendConfirmationEmail);
