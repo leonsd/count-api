@@ -21,9 +21,23 @@ export class UserRepository {
     return this.model.findOneBy({ id });
   };
 
-  findByEmail = (email: string) => {
+  findConfirmedByEmail = (email: string) => {
     return this.model.findOne({
       select: ['name', 'email', 'password', 'createdAt', 'updatedAt'],
+      where: { email, isConfirmed: true },
+    });
+  };
+
+  findByEmail = (email: string) => {
+    return this.model.findOne({
+      select: [
+        'name',
+        'email',
+        'password',
+        'confirmationCode',
+        'createdAt',
+        'updatedAt',
+      ],
       where: { email },
     });
   };

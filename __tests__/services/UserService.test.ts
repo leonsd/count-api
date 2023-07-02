@@ -2,10 +2,15 @@ import ConflictException from '../../src/exceptions/ConflictException';
 import NotFoundException from '../../src/exceptions/NotFoundException';
 import { UserRepository } from '../../src/repositories/UserRepository';
 import { UserService } from '../../src/services/UserService';
+import { ConfirmationEmailQueue } from '../../src/queues/ConfirmationEmailQueue';
 
 jest.mock('../../src/repositories/UserRepository');
+jest.mock('../../src/queues/ConfirmationEmailQueue');
 const UserRepositoryMock = UserRepository as jest.MockedClass<
   typeof UserRepository
+>;
+const ConfirmationEmailQueueMock = ConfirmationEmailQueue as jest.MockedClass<
+  typeof ConfirmationEmailQueue
 >;
 
 describe('UserService', () => {
@@ -13,14 +18,17 @@ describe('UserService', () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const userRepositoryMock = new UserRepositoryMock();
-    const sut = new UserService(userRepositoryMock);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const confirmationEmailQueue = new ConfirmationEmailQueueMock();
+    const sut = new UserService(userRepositoryMock, confirmationEmailQueue);
     const userDataMock = {
       name: 'any_name',
       email: 'any_email.com',
       password: 'any_password',
     };
 
-    return { sut, userRepositoryMock, userDataMock };
+    return { sut, userRepositoryMock, confirmationEmailQueue, userDataMock };
   };
 
   beforeEach(() => {
@@ -34,8 +42,12 @@ describe('UserService', () => {
   });
 
   test('expect "create" calls userRepository.create with correct params', async () => {
-    const { sut, userRepositoryMock, userDataMock } = makeSut();
-    userRepositoryMock.create = jest.fn();
+    const { sut, userRepositoryMock, confirmationEmailQueue, userDataMock } =
+      makeSut();
+    userRepositoryMock.create = jest.fn().mockImplementationOnce(() => {
+      return userDataMock;
+    });
+    confirmationEmailQueue.enqueue = jest.fn();
 
     await sut.create(userDataMock);
 

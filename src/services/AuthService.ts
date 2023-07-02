@@ -16,7 +16,7 @@ export class AuthService {
 
   authentication = async (data: IAuthData) => {
     const { email, password } = data;
-    const userEntity = await this.userRepository.findByEmail(email);
+    const userEntity = await this.userRepository.findConfirmedByEmail(email);
 
     if (!userEntity) {
       throw new UnauthorizedException();

@@ -47,6 +47,7 @@ functions:
   sendConfirmationEmailWorker:
     handler: build/index.sendConfirmationEmailWorker
     description: Send confirmation email register
+    timeout: 60
     events:
       - sqs:
           arn: { Fn::GetAtt: [TonSendConfirmationEmailSQS, Arn] }

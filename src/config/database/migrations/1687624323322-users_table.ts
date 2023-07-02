@@ -28,6 +28,17 @@ export class UsersTable1687624323322 implements MigrationInterface {
             type: 'varchar',
           },
           {
+            name: 'confirmation_code',
+            type: 'varchar',
+            length: '6',
+          },
+
+          {
+            name: 'is_confirmed',
+            type: 'boolean',
+            default: false,
+          },
+          {
             name: 'created_at',
             type: 'timestamp',
             default: 'now()',

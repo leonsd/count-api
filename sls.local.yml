@@ -1,5 +1,7 @@
 provider:
   profile: deploy-dev
+  iam:
+    role: arn:aws:iam::304649006169:role/custom_lambda
   vpc:
     securityGroupIds:
       - sg-00836ae7ae13da1da
@@ -42,6 +44,9 @@ functions:
       - httpApi:
           path: /users/{id}
           method: get
+  sendConfirmationEmailWorker:
+    handler: build/index.sendConfirmationEmailWorker
+    description: Send confirmation email register
 
 resources:
   Resources:

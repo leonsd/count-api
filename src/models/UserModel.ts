@@ -9,6 +9,7 @@ import {
   BeforeInsert,
   AfterInsert,
 } from 'typeorm';
+import { generateConfirmationCode } from '../utils/number';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity {
@@ -24,6 +25,18 @@ export class User extends BaseEntity {
   @Column({ select: false })
   password?: string;
 
+  @Column({
+    name: 'confirmation_code',
+    select: false,
+  })
+  confirmationCode: string;
+
+  @Column({
+    name: 'is_confirmed',
+    default: false,
+  })
+  isConfirmed: boolean;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
@@ -35,9 +48,15 @@ export class User extends BaseEntity {
       id: this.id,
       name: this.name,
       email: this.email,
+      confirmationCode: this.confirmationCode,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
     };
+  };
+
+  @BeforeInsert()
+  private setConfirmationCode = () => {
+    this.confirmationCode = generateConfirmationCode();
   };
 
   @BeforeInsert()

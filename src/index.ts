@@ -16,6 +16,7 @@ import {
   getEventSchema as getVisitEventSchema,
 } from './validators/Visit';
 import { sendConfirmationEmail } from './handlers/sendConfirmationEmail';
+import { sqsBodyParser } from './middlewares/sqsBodyParser';
 
 const authController = AuthController.getInstance();
 const userController = UserController.getInstance();
@@ -56,4 +57,6 @@ export const showUser = middy(userController.show)
   .use(httpErrorHandler());
 
 // Workers
-export const sendConfirmationEmailWorker = middy(sendConfirmationEmail);
+export const sendConfirmationEmailWorker = middy(sendConfirmationEmail)
+  .use(sqsBodyParser())
+  .use(databaseConnection());

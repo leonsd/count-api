@@ -10,6 +10,7 @@ declare global {
       SEND_CONFIRMATION_EMAIL_QUEUE: string;
       JWT_SECRET: string;
       COUNT_API_BASE_URL: string;
+      SOURCE_EMAIL: string;
       REDIS_HOST: string;
       REDIS_PORT: string;
     }
