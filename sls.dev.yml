@@ -44,6 +44,12 @@ functions:
       - httpApi:
           path: /users/{id}
           method: get
+  confirmUser:
+    handler: build/index.confirmUser
+    events:
+      - httpApi:
+          path: /users/confirm/{email}
+          method: patch
   sendConfirmationEmailWorker:
     handler: build/index.sendConfirmationEmailWorker
     description: Send confirmation email register

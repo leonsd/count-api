@@ -24,4 +24,14 @@ export class UserController extends BaseController {
 
     return this.response.success.ok(user);
   };
+
+  confirm = async (
+    event: IAPIGatewayProxyEvent<{ code: string }, { email: string }>
+  ) => {
+    const email = event.pathParameters.email;
+    const code = event.body.code;
+    await this.userService.confirmation(email, code);
+
+    return this.response.success.ok({ message: 'Confirmation successfully' });
+  };
 }

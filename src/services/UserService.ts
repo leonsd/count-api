@@ -1,7 +1,8 @@
 import { UserRepository } from '../repositories/UserRepository';
 import { IUserData } from '../interfaces/UserData';
-import NotFoundException from '../exceptions/NotFoundException';
+import BadRequestException from '../exceptions/BadRequestException';
 import ConflictException from '../exceptions/ConflictException';
+import NotFoundException from '../exceptions/NotFoundException';
 import { ConfirmationEmailQueue } from '../queues/ConfirmationEmailQueue';
 
 export class UserService {
@@ -40,5 +41,25 @@ export class UserService {
     }
 
     return user;
+  };
+
+  confirmation = async (email: string, code: string) => {
+    const userEntity = await this.userRepository.findByEmail(email);
+
+    if (!userEntity) {
+      throw new NotFoundException('User not found');
+    }
+
+    const user = userEntity.toJSON();
+
+    if (user.isConfirmed) {
+      throw new ConflictException('Email already confirmed');
+    }
+
+    if (user.confirmationCode !== code) {
+      throw new BadRequestException('Incorrect or invalid confirmation code');
+    }
+
+    await this.userRepository.updateByEmail(user.email, { isConfirmed: true });
   };
 }

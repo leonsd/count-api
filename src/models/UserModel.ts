@@ -49,6 +49,7 @@ export class User extends BaseEntity {
       name: this.name,
       email: this.email,
       confirmationCode: this.confirmationCode,
+      isConfirmed: this.isConfirmed,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
     };

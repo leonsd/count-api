@@ -21,9 +21,29 @@ const createEventBodySchema = Joi.object({
     .pattern(passwordPattern)
     .required()
     .error(passwordError),
-  repeatPassword: Joi.ref('password'),
+});
+
+const showEventPathParameterSchema = Joi.object({
+  id: Joi.number().required(),
+});
+
+const confirmEventPathParameterSchema = Joi.object({
+  email: Joi.string().email().required(),
+});
+
+const confirmEventBodySchema = Joi.object({
+  code: Joi.string().length(6).required(),
 });
 
 export const createEventSchema = Joi.object({
   body: createEventBodySchema,
+});
+
+export const showEventSchema = Joi.object({
+  pathParameters: showEventPathParameterSchema,
+});
+
+export const confirmEventSchema = Joi.object({
+  pathParameters: confirmEventPathParameterSchema,
+  body: confirmEventBodySchema,
 });

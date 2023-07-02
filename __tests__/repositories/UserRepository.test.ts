@@ -64,6 +64,7 @@ describe('AuthService', () => {
         'name',
         'email',
         'password',
+        'isConfirmed',
         'confirmationCode',
         'createdAt',
         'updatedAt',

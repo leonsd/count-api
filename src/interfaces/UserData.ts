@@ -6,3 +6,11 @@ export interface IUserData {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+export interface IUserUpdateData {
+  name?: string;
+  email?: string;
+  confirmationCode?: string;
+  isConfirmed?: boolean;
+  password?: string;
+}

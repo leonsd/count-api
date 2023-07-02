@@ -1,5 +1,5 @@
 import { User } from '../models/UserModel';
-import { IUserData } from '../interfaces/UserData';
+import { IUserData, IUserUpdateData } from '../interfaces/UserData';
 
 export class UserRepository {
   constructor(private readonly model: typeof User) {}
@@ -34,11 +34,16 @@ export class UserRepository {
         'name',
         'email',
         'password',
+        'isConfirmed',
         'confirmationCode',
         'createdAt',
         'updatedAt',
       ],
       where: { email },
     });
+  };
+
+  updateByEmail = (email: string, data: IUserUpdateData) => {
+    return this.model.update({ email }, data);
   };
 }

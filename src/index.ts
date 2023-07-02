@@ -10,7 +10,11 @@ import { databaseConnection } from './middlewares/databaseConnection';
 import { httpErrorHandler } from './middlewares/httpErrorHandler';
 import { validator } from './middlewares/validator';
 import { authEventSchema } from './validators/Auth';
-import { createEventSchema as createUserEventSchema } from './validators/User';
+import {
+  createEventSchema as createUserEventSchema,
+  showEventSchema as ShowUserEventSchema,
+  confirmEventSchema as confirmUserEventSchema,
+} from './validators/User';
 import {
   incrementEventSchema as incrementVisitEventSchema,
   getEventSchema as getVisitEventSchema,
@@ -52,7 +56,14 @@ export const createUser = middy(userController.create)
 export const showUser = middy(userController.show)
   .use(httpEventNormalizer())
   .use(authorizer())
+  .use(validator(ShowUserEventSchema))
+  .use(databaseConnection())
+  .use(httpErrorHandler());
+
+export const confirmUser = middy(userController.confirm)
+  .use(httpEventNormalizer())
   .use(httpJsonBodyParser())
+  .use(validator(confirmUserEventSchema))
   .use(databaseConnection())
   .use(httpErrorHandler());
 
