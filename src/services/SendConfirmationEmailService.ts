@@ -28,11 +28,11 @@ export class SendConfirmationEmailService {
 
   private send = async (email: string, confirmationCode: string) => {
     try {
-      const toAddresses = [email];
+      const to = email;
       const subject = 'Confirm your Ton Account';
       const body = `Your confirmation code is: ${confirmationCode}`;
 
-      return await this.emailService.send(toAddresses, subject, body);
+      await this.emailService.send(to, subject, body);
     } catch (error) {
       console.error('Error to send confirmation mail', error);
 

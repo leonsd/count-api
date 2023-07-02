@@ -4,14 +4,10 @@ provider:
     role: arn:aws:iam::304649006169:role/custom_lambda
   vpc:
     securityGroupIds:
-      - sg-00836ae7ae13da1da
+      - sg-0bd7a4d00a5f2c2c9
     subnetIds:
-      - subnet-00ad334dc833f0710
-      - subnet-000074828e02bf344
-      - subnet-065ed420c79f67487
-      - subnet-0fac49d84fbe04c2a
-      - subnet-077b28faf95da87e0
-      - subnet-07882ad54ab16277e
+      - subnet-0e5f5a6f08a23ba3d
+      - subnet-088eabdf6486d55ba
 
 functions:
   authentication:
@@ -69,6 +65,10 @@ resources:
         Engine: MySQL
         MasterUsername: ${env:DB_USERNAME}
         MasterUserPassword: ${env:DB_PASSWORD}
+        PubliclyAccessible: true
+        VPCSecurityGroups:
+          - sg-0bd7a4d00a5f2c2c9
+        DBSubnetGroupName: ton-db-subnet
 
     ElasticCacheCluster:
       Type: AWS::ElastiCache::CacheCluster
@@ -78,13 +78,13 @@ resources:
         CacheNodeType: cache.t4g.micro
         NumCacheNodes: 1
         VpcSecurityGroupIds:
-          - sg-053c5e569e215cd82
-        CacheSubnetGroupName: ton-cache-sub
+          - sg-0bd7a4d00a5f2c2c9
+        CacheSubnetGroupName: ton-redis-subnet
     TonSendConfirmationEmailSQS:
       Type: "AWS::SQS::Queue"
       Properties:
         QueueName: "ton_development_send_confirmation_email"
-        VisibilityTimeout: 60
+        VisibilityTimeout: 300
         # RedrivePolicy: {
         #   "deadLetterTargetArn": { Fn::GetAtt: [TonSendConfirmationEmailDlqSQS, Arn] },
         #   "maxReceiveCount": 3

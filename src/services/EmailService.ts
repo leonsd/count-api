@@ -1,35 +1,31 @@
-import {
-  SESClient,
-  SESClientConfig,
-  SendEmailCommand,
-} from '@aws-sdk/client-ses';
+import nodemailer from 'nodemailer';
 
 export class EmailService {
   private static sourceEmail = process.env.SOURCE_EMAIL;
 
-  constructor(private readonly clientEmail: SESClient) {}
+  constructor(private readonly clientEmail: nodemailer.Transporter) {}
 
   static getInstance() {
-    const config: SESClientConfig = {};
-    const sesClient = new SESClient(config);
-
-    return new EmailService(sesClient);
-  }
-
-  send = async (toAddresses: string[], subject: string, body: string) => {
-    const command = new SendEmailCommand({
-      Destination: {
-        ToAddresses: toAddresses,
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT),
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
       },
-      Message: {
-        Subject: { Data: subject },
-        Body: {
-          Text: { Data: body },
-        },
-      },
-      Source: EmailService.sourceEmail,
     });
 
-    return await this.clientEmail.send(command);
+    return new EmailService(transporter);
+  }
+
+  send = async (to: string, subject: string, body: string) => {
+    const email = {
+      from: EmailService.sourceEmail,
+      to,
+      subject,
+      text: body,
+    };
+
+    return await this.clientEmail.sendMail(email);
   };
 }
