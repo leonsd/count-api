@@ -12,6 +12,7 @@ const UserRepositoryMock = UserRepository as jest.MockedClass<
 
 describe('AuthService', () => {
   const makeSut = () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const userRepositoryMock = new UserRepositoryMock();
     const sut = new AuthService(userRepositoryMock);
@@ -38,7 +39,7 @@ describe('AuthService', () => {
 
     try {
       const { sut, userRepositoryMock, authData } = makeSut();
-      userRepositoryMock.findByEmail = jest.fn();
+      userRepositoryMock.findConfirmedByEmail = jest.fn();
 
       await sut.authentication(authData);
     } catch (error) {
@@ -51,14 +52,16 @@ describe('AuthService', () => {
 
     try {
       const { sut, userRepositoryMock, authData } = makeSut();
-      userRepositoryMock.findByEmail = jest.fn().mockImplementationOnce(() => {
-        const salt = 10;
-        const user = new User();
-        user.email = 'any_email.com';
-        user.password = hashSync('any_password_2', salt);
+      userRepositoryMock.findConfirmedByEmail = jest
+        .fn()
+        .mockImplementationOnce(() => {
+          const salt = 10;
+          const user = new User();
+          user.email = 'any_email.com';
+          user.password = hashSync('any_password_2', salt);
 
-        return user;
-      });
+          return user;
+        });
 
       await sut.authentication(authData);
     } catch (error) {
@@ -68,15 +71,17 @@ describe('AuthService', () => {
 
   test('expect "authentication" return token', async () => {
     const { sut, userRepositoryMock, authData } = makeSut();
-    userRepositoryMock.findByEmail = jest.fn().mockImplementationOnce(() => {
-      const user = new User();
-      const salt = 10;
-      user.name = 'any_name';
-      user.email = 'any_email.com';
-      user.password = hashSync(authData.password, salt);
+    userRepositoryMock.findConfirmedByEmail = jest
+      .fn()
+      .mockImplementationOnce(() => {
+        const user = new User();
+        const salt = 10;
+        user.name = 'any_name';
+        user.email = 'any_email.com';
+        user.password = hashSync(authData.password, salt);
 
-      return user;
-    });
+        return user;
+      });
 
     const token = await sut.authentication(authData);
     expect(typeof token).toBe('string');

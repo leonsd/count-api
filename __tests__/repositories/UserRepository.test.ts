@@ -43,13 +43,31 @@ describe('AuthService', () => {
     expect(UserModelMock.findOneBy).toHaveBeenCalledWith({ id });
   });
 
+  test('expect "findConfirmedByEmail" calls this.model.findOne with correct params', async () => {
+    const { sut, userDataMock } = makeSut();
+    await sut.findConfirmedByEmail(userDataMock.email);
+
+    expect(UserModelMock.findOne).toHaveBeenCalledTimes(1);
+    expect(UserModelMock.findOne).toHaveBeenCalledWith({
+      select: ['name', 'email', 'password', 'createdAt', 'updatedAt'],
+      where: { email: userDataMock.email, isConfirmed: true },
+    });
+  });
+
   test('expect "findByEmail" calls this.model.findOne with correct params', async () => {
     const { sut, userDataMock } = makeSut();
     await sut.findByEmail(userDataMock.email);
 
     expect(UserModelMock.findOne).toHaveBeenCalledTimes(1);
     expect(UserModelMock.findOne).toHaveBeenCalledWith({
-      select: ['name', 'email', 'password', 'createdAt', 'updatedAt'],
+      select: [
+        'name',
+        'email',
+        'password',
+        'confirmationCode',
+        'createdAt',
+        'updatedAt',
+      ],
       where: { email: userDataMock.email },
     });
   });
