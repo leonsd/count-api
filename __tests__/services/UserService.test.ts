@@ -1,8 +1,10 @@
 import ConflictException from '../../src/exceptions/ConflictException';
 import NotFoundException from '../../src/exceptions/NotFoundException';
 import { UserRepository } from '../../src/repositories/UserRepository';
+import { User } from '../../src/models/UserModel';
 import { UserService } from '../../src/services/UserService';
 import { ConfirmationEmailQueue } from '../../src/queues/ConfirmationEmailQueue';
+import BadRequestException from '../../src/exceptions/BadRequestException';
 
 jest.mock('../../src/repositories/UserRepository');
 jest.mock('../../src/queues/ConfirmationEmailQueue');
@@ -115,5 +117,78 @@ describe('UserService', () => {
       expect(error).toBeInstanceOf(NotFoundException);
       expect(error.message).toBe('User not found');
     }
+  });
+
+  test('expect "confirmation" throw NotFoundException if user not exists', async () => {
+    expect.assertions(2);
+
+    try {
+      const { sut, userDataMock, userRepositoryMock } = makeSut();
+      userRepositoryMock.findByEmail = jest.fn();
+
+      await sut.confirmation(userDataMock.email, '');
+    } catch (error) {
+      expect(error).toBeInstanceOf(NotFoundException);
+      expect(error.message).toBe('User not found');
+    }
+  });
+
+  test('expect "confirmation" throw ConflictException if user already confirmed', async () => {
+    expect.assertions(2);
+
+    try {
+      const { sut, userDataMock, userRepositoryMock } = makeSut();
+      userRepositoryMock.findByEmail = jest.fn().mockImplementationOnce(() => {
+        const user = new User();
+        user.isConfirmed = true;
+
+        return user;
+      });
+
+      await sut.confirmation(userDataMock.email, '');
+    } catch (error) {
+      expect(error).toBeInstanceOf(ConflictException);
+      expect(error.message).toBe('Email already confirmed');
+    }
+  });
+
+  test('expect "confirmation" throw BadRequestException if confirmation code is different', async () => {
+    expect.assertions(2);
+
+    try {
+      const { sut, userDataMock, userRepositoryMock } = makeSut();
+      userRepositoryMock.findByEmail = jest.fn().mockImplementationOnce(() => {
+        const user = new User();
+        user.confirmationCode = 'any_confirmation_code';
+
+        return user;
+      });
+
+      await sut.confirmation(userDataMock.email, '');
+    } catch (error) {
+      expect(error).toBeInstanceOf(BadRequestException);
+      expect(error.message).toBe('Incorrect or invalid confirmation code');
+    }
+  });
+
+  test('expect "confirmation" calls userRepository.updateByEmail with corect params', async () => {
+    const { sut, userDataMock, userRepositoryMock } = makeSut();
+    const confirmationCode = 'any_confirmation_code';
+    userRepositoryMock.findByEmail = jest.fn().mockImplementationOnce(() => {
+      const user = new User();
+      user.email = userDataMock.email;
+      user.confirmationCode = confirmationCode;
+
+      return user;
+    });
+    userRepositoryMock.updateByEmail = jest.fn();
+
+    await sut.confirmation(userDataMock.email, confirmationCode);
+
+    expect(userRepositoryMock.updateByEmail).toHaveBeenCalledTimes(1);
+    expect(userRepositoryMock.updateByEmail).toHaveBeenCalledWith(
+      userDataMock.email,
+      { isConfirmed: true }
+    );
   });
 });
