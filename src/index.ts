@@ -36,7 +36,6 @@ export const authentication = middy(authController.authentication)
 
 export const incrementVisits = middy(visitController.increment)
   .use(httpEventNormalizer())
-  .use(authorizer())
   .use(validator(incrementVisitEventSchema))
   .use(httpErrorHandler());
 

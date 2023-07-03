@@ -69,13 +69,12 @@ resources:
         VPCSecurityGroups:
           - sg-0bd7a4d00a5f2c2c9
         DBSubnetGroupName: ton-db-subnet
-
     ElasticCacheCluster:
       Type: AWS::ElastiCache::CacheCluster
       Properties:
         AutoMinorVersionUpgrade: true
         Engine: redis
-        CacheNodeType: cache.t4g.micro
+        CacheNodeType: cache.t3.micro
         NumCacheNodes: 1
         VpcSecurityGroupIds:
           - sg-0bd7a4d00a5f2c2c9
@@ -85,7 +84,3 @@ resources:
       Properties:
         QueueName: "ton_development_send_confirmation_email"
         VisibilityTimeout: 300
-        # RedrivePolicy: {
-        #   "deadLetterTargetArn": { Fn::GetAtt: [TonSendConfirmationEmailDlqSQS, Arn] },
-        #   "maxReceiveCount": 3
-        # }
