@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { compare } from 'bcrypt';
 import { User } from '../../src/models/UserModel';
 
@@ -14,7 +15,6 @@ describe('UserModel', () => {
 
   test('expect "setConfirmationCode" set in confirmationCode property a string with length 6', async () => {
     const { sut } = makeSut();
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     sut.setConfirmationCode();
 
@@ -26,7 +26,6 @@ describe('UserModel', () => {
     const { sut } = makeSut();
     const rawPassword = '123';
     sut.password = rawPassword;
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     sut.hashPassword();
 
@@ -36,7 +35,6 @@ describe('UserModel', () => {
 
   test('expect "removePasswordField" delete password property', async () => {
     const { sut } = makeSut();
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     sut.removePasswordField();
 

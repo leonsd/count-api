@@ -19,7 +19,8 @@ export class AuthService {
     const userEntity = await this.userRepository.findConfirmedByEmail(email);
 
     if (!userEntity) {
-      throw new UnauthorizedException();
+      const message = 'Invalid email or password';
+      throw new UnauthorizedException(message);
     }
 
     const match = await this.checkPassword(
@@ -28,7 +29,8 @@ export class AuthService {
     );
 
     if (!match) {
-      throw new UnauthorizedException();
+      const message = 'Invalid email or password';
+      throw new UnauthorizedException(message);
     }
 
     const user = userEntity.toJSON();
