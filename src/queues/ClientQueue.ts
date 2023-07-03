@@ -11,12 +11,7 @@ export class ClientQueue {
   ) {}
 
   static getInstance(queueUrl: string) {
-    const config: SQSClientConfig = {
-      // credentials: {
-      //   accessKeyId: process.env.AWS_ACCESS_KEY_ID ?? '',
-      //   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY_ID ?? '',
-      // },
-    };
+    const config: SQSClientConfig = {};
     const sqsClient = new SQSClient(config);
 
     return new ClientQueue(sqsClient, queueUrl);

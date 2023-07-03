@@ -72,4 +72,16 @@ describe('AuthService', () => {
       where: { email: userDataMock.email },
     });
   });
+
+  test('expect "updateByEmail" calls this.model.update with correct params', async () => {
+    const { sut, userDataMock } = makeSut();
+    const data = { isConfirmed: true };
+    await sut.updateByEmail(userDataMock.email, data);
+
+    expect(UserModelMock.update).toHaveBeenCalledTimes(1);
+    expect(UserModelMock.update).toHaveBeenCalledWith(
+      { email: userDataMock.email },
+      data
+    );
+  });
 });

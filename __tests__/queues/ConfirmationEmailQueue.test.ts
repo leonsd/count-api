@@ -21,7 +21,7 @@ describe('ConfirmationEmailQueue', () => {
   });
 
   test('expect "getInstance" returns instance of ConfirmationEmailQueue', () => {
-    const { sut } = makeSut();
+    const sut = ConfirmationEmailQueue.getInstance();
 
     expect(sut).toBeInstanceOf(ConfirmationEmailQueue);
   });
