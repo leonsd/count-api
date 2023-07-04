@@ -57,7 +57,7 @@ functions:
 
 resources:
   Resources:
-    RDSMySQL:
+    RDSMySQLProd:
       Type: AWS::RDS::DBInstance
       Properties:
         AllocatedStorage: 20
@@ -69,7 +69,7 @@ resources:
         VPCSecurityGroups:
           - sg-0bd7a4d00a5f2c2c9
         DBSubnetGroupName: ton-db-subnet
-    ElasticCacheCluster:
+    ElasticCacheClusterProd:
       Type: AWS::ElastiCache::CacheCluster
       Properties:
         AutoMinorVersionUpgrade: true
