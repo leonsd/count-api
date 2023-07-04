@@ -7,7 +7,6 @@ import {
   UpdateDateColumn,
   BaseEntity,
   BeforeInsert,
-  AfterInsert,
 } from 'typeorm';
 import { generateConfirmationCode } from '../utils/number';
 
@@ -23,7 +22,7 @@ export class User extends BaseEntity {
   email: string;
 
   @Column({ select: false })
-  password?: string;
+  password: string;
 
   @Column({
     name: 'confirmation_code',
@@ -48,6 +47,7 @@ export class User extends BaseEntity {
       id: this.id,
       name: this.name,
       email: this.email,
+      password: this.password,
       confirmationCode: this.confirmationCode,
       isConfirmed: this.isConfirmed,
       createdAt: this.createdAt,
@@ -64,10 +64,5 @@ export class User extends BaseEntity {
   private hashPassword = () => {
     const salt = 10;
     this.password = hashSync(String(this.password), salt);
-  };
-
-  @AfterInsert()
-  private removePasswordField = () => {
-    delete this.password;
   };
 }

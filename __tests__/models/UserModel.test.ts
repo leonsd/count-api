@@ -32,12 +32,4 @@ describe('UserModel', () => {
     expect(sut.password).not.toBe(rawPassword);
     expect(await compare(rawPassword, sut.password)).toBe(true);
   });
-
-  test('expect "removePasswordField" delete password property', async () => {
-    const { sut } = makeSut();
-    // @ts-ignore
-    sut.removePasswordField();
-
-    expect(sut).not.toHaveProperty('password');
-  });
 });

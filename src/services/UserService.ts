@@ -4,6 +4,7 @@ import BadRequestException from '../exceptions/BadRequestException';
 import ConflictException from '../exceptions/ConflictException';
 import NotFoundException from '../exceptions/NotFoundException';
 import { ConfirmationEmailQueue } from '../queues/ConfirmationEmailQueue';
+import * as transform from '../transforms/user';
 
 export class UserService {
   constructor(
@@ -23,7 +24,7 @@ export class UserService {
       const created = await this.userRepository.create(data);
       await this.confirmationEmailQueue.enqueue({ email: created.email });
 
-      return created;
+      return transform.output(created);
     } catch (error) {
       if (error.code === 'ER_DUP_ENTRY') {
         throw new ConflictException('Email already registered');
@@ -40,7 +41,7 @@ export class UserService {
       throw new NotFoundException('User not found');
     }
 
-    return user;
+    return transform.output(user);
   };
 
   confirmation = async (email: string, code: string) => {

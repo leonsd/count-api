@@ -52,12 +52,12 @@ functions:
     timeout: 60
     events:
       - sqs:
-          arn: { Fn::GetAtt: [TonSendConfirmationEmailSQS, Arn] }
+          arn: { Fn::GetAtt: [SendConfirmationEmailSQS, Arn] }
           batchSize: 1
 
 resources:
   Resources:
-    Ton:
+    RDSMySQL:
       Type: AWS::RDS::DBInstance
       Properties:
         AllocatedStorage: 20
@@ -79,7 +79,7 @@ resources:
         VpcSecurityGroupIds:
           - sg-0bd7a4d00a5f2c2c9
         CacheSubnetGroupName: ton-redis-subnet
-    TonSendConfirmationEmailSQS:
+    SendConfirmationEmailSQS:
       Type: "AWS::SQS::Queue"
       Properties:
         QueueName: "ton_development_send_confirmation_email"
