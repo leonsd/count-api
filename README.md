@@ -24,7 +24,9 @@ $ npm i
 Executar o comando a seguir para criação das tabelas do banco de dados.
 
 ```bash
-$ npm run migrate
+$ npm run migrate      # executar migration em ambiente local
+$ npm run migrate:dev  # executar migration em ambiente de desenvolvimento
+$ npm run migrate:prod # executar migration em ambiente de produção
 ```
 
 ### Desenvolvimento local
@@ -49,6 +51,6 @@ $ npm run test:watchAll
 ### Deploy
 
 ```bash
-$ npm run deploy:dev //deploy ambiente de desenvolvimento
-$ npm run deploy:prod //deploy ambiente de produção
+$ npm run deploy:dev  # deploy ambiente de desenvolvimento
+$ npm run deploy:prod # deploy ambiente de produção
 ```
