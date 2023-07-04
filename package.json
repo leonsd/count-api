@@ -45,7 +45,6 @@
     "typeorm": "^0.3.17"
   },
   "devDependencies": {
-    "@aws-sdk/client-ses": "^3.363.0",
     "@aws-sdk/client-sqs": "^3.363.0",
     "@commitlint/cli": "^17.6.5",
     "@commitlint/config-conventional": "^17.6.5",
